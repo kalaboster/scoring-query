@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2"
+        }
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.1.1.RELEASE'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'scala'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+apply from: 'gradle/dependencies.gradle'
+apply from: 'gradle/test.gradle'
+apply from: 'gradle/jar.gradle'
+
+sourceSets {
+    main {
+        scala {
+            srcDirs = ['src/main/scala']
+        }
+    }
+    test {
+        scala {
+            srcDirs = ['src/test/scala']
+        }
+    }
+}
+ext {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
