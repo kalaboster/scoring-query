@@ -1,0 +1,4 @@
+test {
+    useJUnit()
+    maxHeapSize = "4g"
+}

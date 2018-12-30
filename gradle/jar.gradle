@@ -1,0 +1,5 @@
+bootJar {
+    baseName = 'scoring-query'
+    version =  '0.1.0'
+}
+
