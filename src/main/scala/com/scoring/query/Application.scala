@@ -19,7 +19,7 @@ class Application extends CommandLineRunner {
   var commandQueryService: CommandQueryModelingService = null
 
   override def run(args: String*): Unit = {
-    commandQueryService.process(args: _*)
+    var scoringQuery = commandQueryService.process(args: _*)
     sys.exit(0)
   }
 
