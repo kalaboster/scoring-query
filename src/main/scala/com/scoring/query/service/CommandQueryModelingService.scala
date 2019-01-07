@@ -3,6 +3,7 @@ package com.scoring.query.service
 import com.scoring.query.model.query.{ScoringQuery, Select}
 import org.springframework.stereotype.Service
 
+
 @Service
 class CommandQueryModelingService extends CommandModelingService {
 
@@ -10,13 +11,20 @@ class CommandQueryModelingService extends CommandModelingService {
   val regexSelect = "-s=.*"
   var select = "-s="
   var selectCSV = ","
+  val regexFilter = "-f=((.*):(.*))+"
+  var filter = "-f="
+  var filterCSV = ","
+  var filterMap = ":"
 
   override def process(args: String*): ScoringQuery = {
     var scoringQuery: ScoringQuery = new ScoringQuery()
 
     for (a <- args.filter(s => regexCommand.findFirstIn(s).isDefined)) {
       if (a.matches(regexSelect)) {
-        scoringQuery = select(scoringQuery, a)
+        select(scoringQuery, a)
+      }
+      if (a.matches(regexFilter)) {
+        filter(scoringQuery, a)
       }
     }
 
@@ -49,6 +57,15 @@ class CommandQueryModelingService extends CommandModelingService {
     }
 
     scoringQuery.select = selectModel
+
+    return scoringQuery
+  }
+
+  def filter(scoringQuery: ScoringQuery, arg: String): ScoringQuery = {
+
+    scoringQuery.filter = new com.scoring.query.model.query.Filter
+
+    scoringQuery.filter.map = arg.stripPrefix(filter).split(filterCSV).map(_.split(filterMap)).map(arr => arr(0) -> arr(1)).toMap
 
     return scoringQuery
   }
