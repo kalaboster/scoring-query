@@ -1,6 +1,6 @@
 package com.scoring.query.model.query
 
-class Query {
+class ScoringQuery () {
 
   var select: Select = _
   var order: Order = _
