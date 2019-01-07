@@ -1,12 +1,29 @@
 package com.scoring.query
 
-import org.springframework.boot.SpringApplication
+import com.scoring.query.service.CommandQueryModelingService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.{CommandLineRunner, SpringApplication}
+
+object Application {
+
+  def main(args: Array[String]): Unit = {
+    SpringApplication.run(classOf[Application], args: _*)
+  }
+}
 
 @SpringBootApplication
-class Application
+class Application extends CommandLineRunner {
 
-object Application extends App {
-  SpringApplication.run(classOf[Application])
+  @Autowired
+  var commandQueryService: CommandQueryModelingService = null
+
+  override def run(args: String*): Unit = {
+    commandQueryService.process(args: _*)
+    sys.exit(0)
+  }
+
+
 }
+
 
