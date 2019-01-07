@@ -5,9 +5,9 @@ import org.scalatest.FlatSpec
 
 class CommandQueryModelingServiceSpec extends FlatSpec {
 
-  "A modeling service with args" should "return a querymodel" in {
+  "A modeling service with select and filter args" should "return a querymodel" in {
     var commandQueryModelingService: CommandQueryModelingService = new CommandQueryModelingService
-    var args = List("empty", "bad=bad=bad", "-s=STB,PROVIDER", "-f=Date:2014-09-08", "", "-ff=STB","", "-f=STB", "=", "uuu=")
+    var args = List("empty", "bad=bad=bad", "-s=STB,PROVIDER", "-f=DATE:2014-09-08,REV:01", "", "-ff=STB", "", "-f=STB", "=", "uuu=")
     var scoringQuery: ScoringQuery = commandQueryModelingService.process(args: _*)
 
     assert(scoringQuery != (null))
@@ -18,6 +18,8 @@ class CommandQueryModelingServiceSpec extends FlatSpec {
     assert(scoringQuery.select.rev == false)
     assert(scoringQuery.select.title == false)
     assert(scoringQuery.select.viewTime == false)
+    assert(scoringQuery.filter.map.size == 2)
+
   }
 
 }
