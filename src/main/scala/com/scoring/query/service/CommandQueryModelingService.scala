@@ -1,6 +1,6 @@
 package com.scoring.query.service
 
-import com.scoring.query.model.query.{ScoringQuery, Select}
+import com.scoring.query.model.query.{Filter, Order, ScoringQueryModel, Select}
 import org.springframework.stereotype.Service
 
 
@@ -16,22 +16,52 @@ class CommandQueryModelingService extends CommandModelingService {
   var filterCSV = ","
   var filterMap = ":"
 
-  override def process(args: String*): ScoringQuery = {
-    var scoringQuery: ScoringQuery = new ScoringQuery()
+  override def default(): ScoringQueryModel = {
+    var scoringQueryModel: ScoringQueryModel = new ScoringQueryModel
 
-    for (a <- args.filter(s => regexCommand.findFirstIn(s).isDefined)) {
-      if (a.matches(regexSelect)) {
-        select(scoringQuery, a)
+    scoringQueryModel.filter = new Filter
+    scoringQueryModel.order = new Order
+    scoringQueryModel.select = new Select
+    scoringQueryModel.select.provider = true
+    scoringQueryModel.select.viewTime = true
+    scoringQueryModel.select.title = true
+    scoringQueryModel.select.date = true
+    scoringQueryModel.select.stb = true
+    scoringQueryModel.select.rev = true
+
+    return scoringQueryModel
+  }
+
+  override def process(args: String*): ScoringQueryModel = {
+    var scoringQuery: ScoringQueryModel = new ScoringQueryModel()
+
+    if (!args.isEmpty) {
+
+      for (a <- args.filter(s => regexCommand.findFirstIn(s).isDefined)) {
+        if (a.matches(regexSelect)) {
+          select(scoringQuery, a)
+        } else {
+          scoringQuery.select = new Select
+          scoringQuery.select.provider = true
+          scoringQuery.select.viewTime = true
+          scoringQuery.select.title = true
+          scoringQuery.select.date = true
+          scoringQuery.select.stb = true
+          scoringQuery.select.rev = true
+        }
+        if (a.matches(regexFilter)) {
+          filter(scoringQuery, a)
+        } else {
+          scoringQuery.filter = new Filter
+        }
       }
-      if (a.matches(regexFilter)) {
-        filter(scoringQuery, a)
-      }
+    } else {
+      scoringQuery = default()
     }
-
     return scoringQuery
   }
 
-  def select(scoringQuery: ScoringQuery, arg: String): ScoringQuery = {
+  def select(scoringQuery: ScoringQueryModel, arg: String): ScoringQueryModel = {
 
     var selectModel: Select = new Select
 
@@ -61,7 +91,7 @@ class CommandQueryModelingService extends CommandModelingService {
     return scoringQuery
   }
 
-  def filter(scoringQuery: ScoringQuery, arg: String): ScoringQuery = {
+  def filter(scoringQuery: ScoringQueryModel, arg: String): ScoringQueryModel = {
 
     scoringQuery.filter = new com.scoring.query.model.query.Filter
 
