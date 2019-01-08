@@ -6,4 +6,6 @@ trait CommandModelingService {
 
   def process(args: String*): ScoringQueryModel
 
+  def default(): ScoringQueryModel
+
 }
