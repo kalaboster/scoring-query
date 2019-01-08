@@ -1,6 +1,6 @@
 package com.scoring.query.model
 
-class Scoring {
+class ScoringModel {
 
   var stb: String = _
   var title: String = _
