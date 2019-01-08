@@ -1,6 +1,6 @@
 package com.scoring.query.service
 
-import com.scoring.query.model.query.{ScoringQuery, Select}
+import com.scoring.query.model.query.{ScoringQueryModel, Select}
 import org.springframework.stereotype.Service
 
 
@@ -16,8 +16,8 @@ class CommandQueryModelingService extends CommandModelingService {
   var filterCSV = ","
   var filterMap = ":"
 
-  override def process(args: String*): ScoringQuery = {
-    var scoringQuery: ScoringQuery = new ScoringQuery()
+  override def process(args: String*): ScoringQueryModel = {
+    var scoringQuery: ScoringQueryModel = new ScoringQueryModel()
 
     for (a <- args.filter(s => regexCommand.findFirstIn(s).isDefined)) {
       if (a.matches(regexSelect)) {
@@ -31,7 +31,7 @@ class CommandQueryModelingService extends CommandModelingService {
     return scoringQuery
   }
 
-  def select(scoringQuery: ScoringQuery, arg: String): ScoringQuery = {
+  def select(scoringQuery: ScoringQueryModel, arg: String): ScoringQueryModel = {
 
     var selectModel: Select = new Select
 
@@ -61,7 +61,7 @@ class CommandQueryModelingService extends CommandModelingService {
     return scoringQuery
   }
 
-  def filter(scoringQuery: ScoringQuery, arg: String): ScoringQuery = {
+  def filter(scoringQuery: ScoringQueryModel, arg: String): ScoringQueryModel = {
 
     scoringQuery.filter = new com.scoring.query.model.query.Filter
 
