@@ -11,6 +11,10 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5'
+    
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-scala_2.11', version: '2.9.7'
+
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.1.RELEASE'
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.scalatest', name: 'scalatest_2.11', version: '3.0.5'
