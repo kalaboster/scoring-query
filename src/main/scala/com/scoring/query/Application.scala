@@ -24,7 +24,9 @@ class Application extends CommandLineRunner {
   override def run(args: String*): Unit = {
     var scoringQuery = commandQueryService.process(args: _*)
     var listScoringModel = queryScoringService.process(scoringQuery, "http://localhost:8888/api/scoring/query")
+    println("\n\n##### Query Return #####")
     listScoringModel.toStream.foreach[Any](println)
+    println("########################\n\n")
     sys.exit(0)
   }
 
